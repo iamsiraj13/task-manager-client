@@ -1,14 +1,17 @@
 import React, { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { RegistrationRequest } from "../../APIRequest/APIRequest";
 import {
   ErrorToast,
   isEmail,
   isEmpty,
   isMobile,
-  SuccessToast,
+   
 } from "../../helper/FormHelper";
 
 const Registration = () => {
+
+  const navigate = useNavigate();
   let emailRef,
     firstNameRef,
     lastNameRef,
@@ -39,7 +42,11 @@ const Registration = () => {
         ErrorToast("Password Required !")
     }else{ 
 
-      RegistrationRequest(email, firstName, lastName, mobile, password, photo)
+      RegistrationRequest(email, firstName, lastName, mobile, password, photo).then((result)=>{
+        if( result == true){
+          navigate('/login')
+        }
+      })
     }
 
 
