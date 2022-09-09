@@ -8,31 +8,35 @@ import {
   AiOutlineMenuUnfold,
   AiOutlineUser,
 } from "react-icons/ai";
-import {MdOutlineCancelPresentation, RiDashboardLine} from "react-icons/all";
+import { MdOutlineCancelPresentation, RiDashboardLine } from "react-icons/all";
 import { BsHourglass, BsListNested } from "react-icons/bs";
 import profile from "../../assets/images/profile.png";
 import { NavLink } from "react-router-dom";
+import { removeSession } from "../../helper/SessionHelper";
 
 const MasterLayout = (props) => {
   let sideNavRef,
     contentRef = useRef();
 
-    const MenuBarClickHandler = () => {
-        let sideNav = sideNavRef;
-        let content = contentRef;
-        if (sideNav.classList.contains("side-nav-open")) {
-            sideNav.classList.add("side-nav-close");
-            sideNav.classList.remove("side-nav-open");
-            content.classList.add("content-expand");
-            content.classList.remove("content");
-        } else {
-            sideNav.classList.remove("side-nav-close");
-            sideNav.classList.add("side-nav-open");
-            content.classList.remove("content-expand");
-            content.classList.add("content");
-        }
-    };
+  const MenuBarClickHandler = () => {
+    let sideNav = sideNavRef;
+    let content = contentRef;
+    if (sideNav.classList.contains("side-nav-open")) {
+      sideNav.classList.add("side-nav-close");
+      sideNav.classList.remove("side-nav-open");
+      content.classList.add("content-expand");
+      content.classList.remove("content");
+    } else {
+      sideNav.classList.remove("side-nav-close");
+      sideNav.classList.add("side-nav-open");
+      content.classList.remove("content-expand");
+      content.classList.add("content");
+    }
+  };
 
+  const onLogout = () => {
+    removeSession();
+  };
 
   return (
     <Fragment>
@@ -57,7 +61,12 @@ const MasterLayout = (props) => {
                   <AiOutlineUser className="side-bar-item-icon" />
                   <span className="side-bar-item-caption">Profile</span>
                 </NavLink>
-                <a className="side-bar-item">
+                <a
+                  className="side-bar-item"
+                  onClick={() => {
+                    onLogout();
+                  }}
+                >
                   <AiOutlineLogout className="side-bar-item-icon" />
                   <span className="side-bar-item-caption">Logout</span>
                 </a>
@@ -66,7 +75,7 @@ const MasterLayout = (props) => {
           </div>
         </Container>
       </Navbar>
-{/* sidenav */}
+      {/* sidenav */}
       <div
         ref={(div) => {
           sideNavRef = div;
@@ -145,10 +154,10 @@ const MasterLayout = (props) => {
           <span className="side-bar-item-caption">Canceled</span>
         </NavLink>
       </div>
-      
-      <div ref={(div) => contentRef = div} className="content">
-                {props.children}
-            </div>
+
+      <div ref={(div) => (contentRef = div)} className="content">
+        {props.children}
+      </div>
     </Fragment>
   );
 };

@@ -1,14 +1,14 @@
-import React, { Fragment, Suspense } from "react";
-import LazyLoader from "../components/masterLayout/LazyLoader";
-import MasterLayout from "../components/masterLayout/MasterLayout";
+import React, { Fragment } from "react";
 const Page404 = () => {
   return (
     <Fragment>
-      <MasterLayout>
-        <Suspense fallback={<LazyLoader />}>
-          <h1>master layout</h1>
-        </Suspense>
-      </MasterLayout>
+      <div className="container">
+        <div className="d-flex justify-content-center align-items-center">
+          <h2>404 - Not Found</h2>
+          <br />
+          <button className="btn btn-primary" onClick={()=>window.location.href="/login"}>Back to HomePage</button>
+        </div>
+      </div>
     </Fragment>
   );
 };

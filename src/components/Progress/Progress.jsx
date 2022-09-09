@@ -1,9 +1,35 @@
-import React, { Fragment } from "react";
-import {AiOutlineCalendar, AiOutlineDelete} from "react-icons/all";
-import {AiOutlineEdit} from "react-icons/ai";
+import React, { Fragment, useEffect } from "react";
+import { AiOutlineCalendar, AiOutlineDelete } from "react-icons/all";
+import { AiOutlineEdit } from "react-icons/ai";
 import { Container } from "react-bootstrap";
+import { getTaskByStatus } from "../../APIRequest/APIRequest";
+import { useSelector } from "react-redux";
+import { DeleteTodo } from "../../helper/DeleteAlert";
+import { UpdateTodo } from "../../helper/UpdateAlert";
 
 const Progress = () => {
+  useEffect(() => {
+    getTaskByStatus("Progress");
+  }, []);
+
+  const progressTask = useSelector((state) => state.task.Progress);
+
+  const DeleteItem = (id) => {
+    DeleteTodo(id).then((result) => {
+      if (result === true) {
+        getTaskByStatus("Progress");
+      }
+    });
+  };
+
+  const StatusChangeItem = (id, status) => {
+    UpdateTodo(id, status).then((result) => {
+      if (result === true) {
+        getTaskByStatus("Progress");
+      }
+    });
+  };
+
   return (
     <Fragment>
       <Container fluid={true} className="content-body">
@@ -23,34 +49,34 @@ const Progress = () => {
           </div>
         </div>
         <div className="row p-0 m-0">
-          {[1,2,3,4].map((item, i) => (
+          {progressTask.map((item, i) => (
             <div
               key={i.toString()}
               className="col-12 col-lg-4 col-sm-6 col-md-4  p-2"
             >
               <div className="card h-100">
                 <div className="card-body">
-                  <h6 className="animated fadeInUp">Mern Stack</h6>
-                  <p className="animated fadeInUp">Mern Stack is a popular javascript development stack</p>
+                  <h6 className="animated fadeInUp">{item.title}</h6>
+                  <p className="animated fadeInUp">{item.description}</p>
                   <p className="m-0 animated fadeInUp p-0">
-                    <AiOutlineCalendar /> 05/03/22
+                    <AiOutlineCalendar /> {item.createdDate}
                     <a
-                    //   onClick={StatusChangeItem.bind(
-                    //     this,
-                    //     item._id,
-                    //     item.status
-                    //   )}
+                      onClick={StatusChangeItem.bind(
+                        this,
+                        item._id,
+                        item.status
+                      )}
                       className="icon-nav text-primary mx-1"
                     >
                       <AiOutlineEdit />
                     </a>
                     <a
-                    //   onClick={DeleteItem.bind(this, item._id)}
+                      onClick={DeleteItem.bind(this, item._id)}
                       className="icon-nav text-danger mx-1"
                     >
                       <AiOutlineDelete />
                     </a>
-                    <a className="badge float-end bg-primary">Progress</a>
+                    <a className="badge float-end bg-primary">{item.status}</a>
                   </p>
                 </div>
               </div>

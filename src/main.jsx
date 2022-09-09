@@ -9,12 +9,10 @@ import "./assets/css/progress.css";
 import "./assets/css/sidebar.css";
 import "./assets/css/style.css";
 import { Provider } from "react-redux";
-import store from './redux/store/store';
+import store from "./redux/store/store";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>
+  <Provider store={store}>
+    <App />
+  </Provider>
 );
