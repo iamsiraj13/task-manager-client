@@ -1,4 +1,4 @@
-import React, { Fragment, useRef } from "react";
+import React, { Fragment, useEffect, useRef } from "react";
 import { Container, Navbar } from "react-bootstrap";
 import logo from "../../assets/images/logo.svg";
 import {
@@ -10,13 +10,14 @@ import {
 } from "react-icons/ai";
 import { MdOutlineCancelPresentation, RiDashboardLine } from "react-icons/all";
 import { BsHourglass, BsListNested } from "react-icons/bs";
-import profile from "../../assets/images/profile.png";
 import { NavLink } from "react-router-dom";
-import { removeSession } from "../../helper/SessionHelper";
+import { getUserDetails, removeSession } from "../../helper/SessionHelper";
 
 const MasterLayout = (props) => {
   let sideNavRef,
     contentRef = useRef();
+
+  const profile = getUserDetails();
 
   const MenuBarClickHandler = () => {
     let sideNav = sideNavRef;
@@ -50,14 +51,22 @@ const MasterLayout = (props) => {
           </Navbar.Brand>
           <div className="float-right h-auto d-flex">
             <div className="user-dropdown">
-              <img className="icon-nav-img icon-nav" src={profile} alt="" />
+              <img
+                className="icon-nav-img icon-nav"
+                src={profile.photo}
+                alt=""
+              />
               <div className="user-dropdown-content ">
                 <div className="mt-4 text-center">
-                  <img className="icon-nav-img" src={profile} alt="" />
-                  <h6>User Name</h6>
+                  <img
+                    className="icon-nav-img icon-nav"
+                    src={profile.photo}
+                    alt=""
+                  />
+                  <h6>{profile.firstName}</h6>
                   <hr className="user-dropdown-divider  p-0" />
                 </div>
-                <NavLink to="/Profile" className="side-bar-item">
+                <NavLink to="/profile" className="side-bar-item">
                   <AiOutlineUser className="side-bar-item-icon" />
                   <span className="side-bar-item-caption">Profile</span>
                 </NavLink>

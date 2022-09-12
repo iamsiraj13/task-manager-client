@@ -5,6 +5,7 @@ export function UpdateTodo(id, status) {
   return Swal.fire({
     title: "Change Status",
     input: "select",
+    allowOutsideClick: false,
     inputOptions: {
       New: "New",
       Progress: "Progress",

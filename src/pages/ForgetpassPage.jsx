@@ -1,17 +1,11 @@
 import React, { Fragment, lazy, Suspense } from "react";
-import LazyLoader from "../components/masterLayout/LazyLoader";
-import MasterLayout from "../components/masterLayout/MasterLayout";
-
-const ForgetPassword =lazy(()=>import("../components/Forgetpass/ForgetPassword"));
-
+import SendOTP from "../components/AccountRecover/SendOTP";
 
 const ForgetpassPage = () => {
   return (
     <Fragment>
       <MasterLayout>
-        <Suspense fallback={<LazyLoader />}>
-          <ForgetPassword/>
-        </Suspense>
+        <SendOTP />
       </MasterLayout>
     </Fragment>
   );

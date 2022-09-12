@@ -2,6 +2,9 @@ import React, { Fragment } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import FullScreenLoader from "./components/masterLayout/FullScreenLoader";
 import { getToken } from "./helper/SessionHelper";
+import CreatePasswordPage from "./pages/AccountRecover/CreatePasswordPage";
+import SendOTPPage from "./pages/AccountRecover/SendOTPPage";
+import VerifyOTPPage from "./pages/AccountRecover/VerifyOTPPage";
 import CanceledPage from "./pages/CanceledPage";
 import CompletedPage from "./pages/CompletedPage";
 import CreatePage from "./pages/CreatePage";
@@ -27,6 +30,7 @@ const App = () => {
             <Route path="/completed" element={<CompletedPage />} />
             <Route path="/canceled" element={<CanceledPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+
             <Route path="*" exact element={<Page404 />} />
           </Routes>
         </BrowserRouter>
@@ -42,6 +46,11 @@ const App = () => {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/registration" element={<RegistrationPage />} />
             <Route path="/forgetpass" element={<ForgetpassPage />} />
+
+            <Route path="/send-OTP" element={<SendOTPPage />} />
+            <Route path="/verify-OTP" element={<VerifyOTPPage />} />
+            <Route path="create-password" element={<CreatePasswordPage />} />
+
             <Route path="*" exact element={<Page404 />} />
           </Routes>
         </BrowserRouter>

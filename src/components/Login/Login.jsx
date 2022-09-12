@@ -7,24 +7,22 @@ const Login = () => {
   let passRef,
     emailRef = useRef();
 
-  const SubmitLogin=()=>{
-      let email = emailRef.value;
-      let password = passRef.value; 
+  const SubmitLogin = () => {
+    let email = emailRef.value;
+    let password = passRef.value;
 
-      if( isEmail(email) ){
-        ErrorToast("Valid Email Required")
-      }else if(isEmpty(password)){
-        ErrorToast("Password Required")
-      }else{
-        loginRequest(email,password).then((result)=>{
-          if(result == true){
-            window.location.href="/"
-          }
-        })
-      }
-
-
-  }
+    if (isEmail(email)) {
+      ErrorToast("Valid Email Required");
+    } else if (isEmpty(password)) {
+      ErrorToast("Password Required");
+    } else {
+      loginRequest(email, password).then((result) => {
+        if (result == true) {
+          window.location.href = "/";
+        }
+      });
+    }
+  };
   return (
     <Fragment>
       <div className="container">
@@ -66,7 +64,7 @@ const Login = () => {
                     <span className="ms-1">|</span>
                     <Link
                       className="text-center ms-3 h6 animated fadeInUp"
-                      to="/SendOTP"
+                      to="/send-OTP"
                     >
                       Forget Password
                     </Link>

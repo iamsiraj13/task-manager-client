@@ -6,6 +6,7 @@ export function DeleteTodo(id) {
     title: "Are you sure?",
     text: "You won't be able to revert this!",
     icon: "warning",
+    allowOutsideClick: false,
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
     cancelButtonColor: "#d33",

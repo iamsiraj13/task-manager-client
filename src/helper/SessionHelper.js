@@ -5,6 +5,22 @@ class sessionHelper {
   getToken() {
     return localStorage.getItem("token");
   }
+
+  // EMAIL
+  setEmail(email) {
+    localStorage.setItem("email", email);
+  }
+  getEmail() {
+    return localStorage.getItem("email");
+  }
+  // OTP
+  setOTP(OTP) {
+    localStorage.setItem("OTP", OTP);
+  }
+  getOTP() {
+    return localStorage.getItem("OTP");
+  }
+
   setUserDetails(UserDetails) {
     localStorage.setItem("userDetails", JSON.stringify(UserDetails));
   }
@@ -23,4 +39,8 @@ export const {
   setUserDetails,
   getUserDetails,
   removeSession,
+  setEmail,
+  getEmail,
+  setOTP,
+  getOTP,
 } = new sessionHelper();

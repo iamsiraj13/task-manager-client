@@ -1,6 +1,7 @@
 import axios from "axios";
 import { ErrorToast, SuccessToast } from "../helper/FormHelper";
 import { getToken, setToken, setUserDetails } from "../helper/SessionHelper";
+import { setProfile } from "../redux/stateSlice/profileSlice";
 import { hideLoader, showLoader } from "../redux/stateSlice/settingSlice";
 import { setSummery } from "../redux/stateSlice/summerySlice";
 import {
@@ -27,7 +28,7 @@ export const RegistrationRequest = (
 ) => {
   store.dispatch(showLoader());
 
-  let url = `${BASEURL}/Registration`;
+  let url = `${BASEURL}/registration`;
   const postBody = {
     email: email,
     firstName: firstName,
@@ -229,5 +230,149 @@ export const updateStauts = (id, status) => {
       ErrorToast("Something went Wrong");
       store.dispatch(hideLoader());
       return false;
+    });
+};
+
+// get user details
+
+export const getUser = () => {
+  store.dispatch(showLoader());
+  let url = `${BASEURL}/profile`;
+
+  axios
+    .get(url, axiosHeader)
+    .then((res) => {
+      store.dispatch(hideLoader());
+      if (res.status === 200) {
+        store.dispatch(setProfile(res.data["data"]));
+      } else {
+        ErrorToast("Something went wrong");
+      }
+    })
+    .catch((error) => {
+      ErrorToast("Something went wrong");
+      store.dispatch(hideLoader());
+    });
+};
+
+// user profile update
+
+export function profileUpdateRequest(
+  email,
+  firstName,
+  lastName,
+  mobile,
+  password,
+  photo
+) {
+  store.dispatch(showLoader());
+
+  let URL = BASEURL + "/profileUpdate";
+
+  let PostBody = {
+    email: email,
+    firstName: firstName,
+    lastName: lastName,
+    mobile: mobile,
+    password: password,
+    photo: photo,
+  };
+  let UserDetails = {
+    email: email,
+    firstName: firstName,
+    lastName: lastName,
+    mobile: mobile,
+    photo: photo,
+  };
+
+  return axios
+    .post(URL, PostBody, axiosHeader)
+    .then((res) => {
+      store.dispatch(hideLoader());
+      if (res.status === 200) {
+        SuccessToast("Profile Update Success");
+        setUserDetails(UserDetails);
+
+        return true;
+      } else {
+        ErrorToast("Something Went Wrong");
+        return false;
+      }
+    })
+    .catch((err) => {
+      ErrorToast("Something Went Wrong");
+      store.dispatch(hideLoader());
+      return false;
+    });
+}
+
+// recover verify email request
+
+export const recoverVerifyEmail = (email) => {
+  store.dispatch(showLoader());
+
+  let url = `${BASEURL}/recoverVerifyEmail/${email}`;
+  return axios
+    .get(url)
+    .then((res) => {
+      store.dispatch(hideLoader());
+      if (res.status === 200) {
+        return true;
+      } else {
+        ErrorToast("Something went wrong");
+      }
+    })
+    .catch((error) => {
+      ErrorToast("Something went wrong");
+      store.dispatch(hideLoader());
+    });
+};
+// recover verify otp request
+
+export const recoverVerifyOTP = (email, OTP) => {
+  store.dispatch(showLoader());
+
+  let url = `${BASEURL}/recoverVerifyOTP/${email}/${OTP}`;
+  return axios
+    .get(url)
+    .then((res) => {
+      store.dispatch(hideLoader());
+      if (res.status === 200) {
+        return true;
+      } else {
+        ErrorToast("Something went wrong");
+      }
+    })
+    .catch((error) => {
+      ErrorToast("Something went wrong");
+      store.dispatch(hideLoader());
+    });
+};
+// recover reset password request
+
+export const recoverResetPassword = (email, OTP, password) => {
+  store.dispatch(showLoader());
+
+  let url = `${BASEURL}/recoverResetPassword`;
+
+  let postBody = {
+    email: email,
+    OTP: OTP,
+    password: password,
+  };
+
+  return axios
+    .post(url, postBody)
+    .then((res) => {
+      store.dispatch(hideLoader());
+      if (res.status === 200) {
+        return true;
+      } else {
+        ErrorToast("Something went wrong");
+      }
+    })
+    .catch((error) => {
+      ErrorToast("Something went wrong");
+      store.dispatch(hideLoader());
     });
 };
