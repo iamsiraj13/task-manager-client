@@ -1,6 +1,12 @@
 import axios from "axios";
 import { ErrorToast, SuccessToast } from "../helper/FormHelper";
-import { getToken, setToken, setUserDetails } from "../helper/SessionHelper";
+import {
+  getToken,
+  setEmail,
+  setOTP,
+  setToken,
+  setUserDetails,
+} from "../helper/SessionHelper";
 import { setProfile } from "../redux/stateSlice/profileSlice";
 import { hideLoader, showLoader } from "../redux/stateSlice/settingSlice";
 import { setSummery } from "../redux/stateSlice/summerySlice";
@@ -12,7 +18,7 @@ import {
 } from "../redux/stateSlice/taskSlice";
 import store from "../redux/store/store";
 
-const BASEURL = "http://localhost:5000/api";
+const BASEURL = "http://localhost:8080/api";
 
 const axiosHeader = { headers: { token: getToken() } };
 
@@ -61,7 +67,7 @@ export const RegistrationRequest = (
     })
     .catch((error) => {
       store.dispatch(hideLoader());
-      ErrorToast("Something Went Wrong");
+      ErrorToast("Wrong");
       return false;
     });
 };
@@ -317,14 +323,23 @@ export const recoverVerifyEmail = (email) => {
     .then((res) => {
       store.dispatch(hideLoader());
       if (res.status === 200) {
-        return true;
+        if (res.data["status"] === "fail") {
+          ErrorToast("User Not Found");
+          return false;
+        } else {
+          setEmail(email);
+          SuccessToast("A 6 digit OTP has been sent to your email address");
+          return true;
+        }
       } else {
         ErrorToast("Something went wrong");
+        return false;
       }
     })
     .catch((error) => {
       ErrorToast("Something went wrong");
       store.dispatch(hideLoader());
+      return false;
     });
 };
 // recover verify otp request
@@ -338,41 +353,51 @@ export const recoverVerifyOTP = (email, OTP) => {
     .then((res) => {
       store.dispatch(hideLoader());
       if (res.status === 200) {
-        return true;
+        if (res.data["status"] === "fail") {
+          ErrorToast(res.data["data"]);
+          return false;
+        } else {
+          setOTP(OTP);
+          SuccessToast("OTP Verify Success");
+          return true;
+        }
       } else {
         ErrorToast("Something went wrong");
+        return false;
       }
     })
     .catch((error) => {
       ErrorToast("Something went wrong");
       store.dispatch(hideLoader());
+      return false;
     });
 };
 // recover reset password request
-
-export const recoverResetPassword = (email, OTP, password) => {
+export function RecoverResetPassRequest(email, OTP, password) {
   store.dispatch(showLoader());
-
-  let url = `${BASEURL}/recoverResetPassword`;
-
-  let postBody = {
-    email: email,
-    OTP: OTP,
-    password: password,
-  };
+  let URL = BASEURL + "/RecoverResetPass";
+  let PostBody = { email: email, OTP: OTP, password: password };
 
   return axios
-    .post(url, postBody)
+    .post(URL, PostBody)
     .then((res) => {
       store.dispatch(hideLoader());
       if (res.status === 200) {
-        return true;
+        if (res.data["status"] === "fail") {
+          ErrorToast(res.data["data"]);
+          return false;
+        } else {
+          SuccessToast("NEW PASSWORD CREATED");
+          return true;
+        }
       } else {
-        ErrorToast("Something went wrong");
+        ErrorToast("Something Went Wrong");
+        return false;
       }
     })
-    .catch((error) => {
-      ErrorToast("Something went wrong");
+    .catch((err) => {
+      ErrorToast("Something Went Wrong");
       store.dispatch(hideLoader());
+      return false;
     });
-};
+}

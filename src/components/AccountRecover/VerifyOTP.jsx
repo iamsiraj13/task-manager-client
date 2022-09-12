@@ -1,10 +1,14 @@
 import React, { Fragment } from "react";
 import { useState } from "react";
 import ReactCodeInput from "react-code-input";
+import { useNavigate } from "react-router-dom";
+import { recoverVerifyOTP } from "../../APIRequest/APIRequest";
 import { ErrorToast } from "../../helper/FormHelper";
+import { getEmail } from "../../helper/SessionHelper";
 
 const VerifyOTP = () => {
   const [OTP, SetOTP] = useState("");
+  const navigate = useNavigate();
 
   let defaultInputStyle = {
     fontFamily: "monospace",
@@ -25,9 +29,11 @@ const VerifyOTP = () => {
 
   const SubmitOTP = () => {
     if (OTP.length === 6) {
-      alert("its working");
-    } else {
-      ErrorToast("Enter 6 digit OTP");
+      recoverVerifyOTP(getEmail(), OTP).then((result) => {
+        if (result === true) {
+          navigate("/create-password");
+        }
+      });
     }
   };
 

@@ -49,11 +49,12 @@ const App = () => {
 
             <Route path="/send-OTP" element={<SendOTPPage />} />
             <Route path="/verify-OTP" element={<VerifyOTPPage />} />
-            <Route path="create-password" element={<CreatePasswordPage />} />
+            <Route path="/create-password" element={<CreatePasswordPage />} />
 
             <Route path="*" exact element={<Page404 />} />
           </Routes>
         </BrowserRouter>
+        <FullScreenLoader />
       </Fragment>
     );
   }
