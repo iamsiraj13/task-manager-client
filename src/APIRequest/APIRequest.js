@@ -18,7 +18,7 @@ import {
 } from "../redux/stateSlice/taskSlice";
 import store from "../redux/store/store";
 
-const BASEURL = "http://localhost:8080/api";
+const BASEURL = "https://task-manager-server-omega.vercel.app/api";
 
 const axiosHeader = { headers: { token: getToken() } };
 
